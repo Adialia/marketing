@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study: QA Automation in Fintech - Floodplain Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #1e40af;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-light: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --gradient-primary: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #06b6d4 100%);
+            --gradient-dark: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--gradient-dark);
+            color: white;
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233b82f6' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: #93c5fd;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Metrics Bar */
+        .metrics-bar {
+            background: white;
+            margin-top: -40px;
+            position: relative;
+            z-index: 10;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 32px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .metrics-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .metric {
+            text-align: center;
+            padding: 16px;
+            border-radius: 12px;
+            background: var(--bg-light);
+        }
+
+        .metric-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+            line-height: 1;
+        }
+
+        .metric-value.success { color: var(--success); }
+        .metric-value.accent { color: var(--accent); }
+        .metric-value.primary { color: var(--primary); }
+
+        .metric-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-alt {
+            background: white;
+        }
+
+        .section-header {
+            margin-bottom: 48px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--secondary);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .section-desc {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .card h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--primary);
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .comparison-table th {
+            background: var(--primary);
+            color: white;
+            padding: 16px 24px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table th:not(:first-child) {
+            text-align: center;
+        }
+
+        .comparison-table td {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table td:not(:first-child) {
+            text-align: center;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table .before {
+            background: #fef2f2;
+            color: var(--danger);
+        }
+
+        .comparison-table .after {
+            background: #ecfdf5;
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        /* Tech Stack */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+
+        .tech-item {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 20px 24px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .tech-category {
+            font-weight: 600;
+            color: var(--secondary);
+            min-width: 120px;
+        }
+
+        .tech-tools {
+            color: var(--text-secondary);
+        }
+
+        /* Lessons */
+        .lesson-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .lesson-item {
+            background: white;
+            border-radius: 16px;
+            padding: 28px 32px;
+            border-left: 4px solid var(--accent);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .lesson-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 14px;
+            margin-right: 16px;
+        }
+
+        .lesson-title {
+            display: inline;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.125rem;
+        }
+
+        .lesson-desc {
+            margin-top: 12px;
+            color: var(--text-secondary);
+            padding-left: 48px;
+        }
+
+        /* CTA */
+        .cta-section {
+            background: var(--gradient-primary);
+            padding: 80px 0;
+            text-align: center;
+            color: white;
+        }
+
+        .cta-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .cta-subtitle {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            margin-bottom: 32px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: var(--secondary);
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Quote Box */
+        .quote-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-left: 4px solid var(--accent);
+            padding: 32px;
+            border-radius: 0 16px 16px 0;
+            margin: 40px 0;
+        }
+
+        .quote-box p {
+            font-size: 1.125rem;
+            font-style: italic;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .quote-attribution {
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        /* Bullet List */
+        .bullet-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+        }
+
+        .bullet-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="hero-badge">Case Study • Fintech</span>
+                <h1>QA Automation Excellence<br><span>Floodplain Platform</span></h1>
+                <p class="hero-subtitle">How strategic test automation transformed a fintech platform's quality assurance, reducing smoke testing time by 85% and enabling 24/7 production monitoring.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Metrics Bar -->
+    <div class="container">
+        <div class="metrics-bar">
+            <div class="metric">
+                <div class="metric-value success">85%</div>
+                <div class="metric-label">Smoke Test Time Reduction</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value accent">24/7</div>
+                <div class="metric-label">Production Monitoring</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value primary">100%</div>
+                <div class="metric-label">Critical Flow Coverage</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">2 Weeks</div>
+                <div class="metric-label">Release Cycle</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Project Overview</span>
+                <h2 class="section-title">About Floodplain</h2>
+                <p class="section-desc">A professional financial management platform combining comprehensive banking features with integrated tax compliance tools—designed for business-critical financial operations.</p>
+            </div>
+
+            <div class="quote-box">
+                <p>"Think of it as Monobank combined with a tax compliance portal—but built for professional and business use cases."</p>
+                <span class="quote-attribution">— QA Automation Engineer</span>
+            </div>
+
+            <ul class="bullet-list">
+                <li>Account management and multi-user access control</li>
+                <li>Payment card provisioning and lifecycle management</li>
+                <li>Agreement processing with third-party integrations (DectaGate)</li>
+                <li>Real-time transaction processing and balance reconciliation</li>
+                <li>Merchant onboarding and compliance workflows</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Challenge Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">The Challenge</span>
+                <h2 class="section-title">What We Were Facing</h2>
+                <p class="section-desc">Before implementing QA automation, the team faced critical challenges impacting development velocity and system reliability.</p>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">⏱️</div>
+                    <h3>Testing Time Crisis</h3>
+                    <p>Manual smoke testing consumed 2-3 full days per release. Full regression extended to 2-3 weeks, creating significant bottlenecks.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⚠️</div>
+                    <h3>Backend Instability</h3>
+                    <p>Multiple environments suffered frequent instability. The dev environment was so unreliable that no tests could run against it.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">👁️</div>
+                    <h3>Production Visibility Gap</h3>
+                    <p>A critical incident: production was down for nearly a full day before anyone noticed. No proactive detection existed.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔄</div>
+                    <h3>Complex Integrations</h3>
+                    <p>Testing card flows required complex multi-user scenarios. Each bug fix invalidated test data, requiring complete recreation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Approach Section -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Our Approach</span>
+                <h2 class="section-title">Strategic Implementation</h2>
+                <p class="section-desc">A phased approach prioritizing API stability, E2E validation, and production monitoring.</p>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">1️⃣</div>
+                    <h3>Phase 1: API-First Foundation</h3>
+                    <p>Built a robust API testing framework with Node.js, Mocha, and Chai. API tests provide deterministic results—a 500 error is always a 500 error, unlike flaky UI tests.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">2️⃣</div>
+                    <h3>Phase 2: E2E with Playwright</h3>
+                    <p>Selected Playwright over Cypress for superior documentation, faster execution, and long-term community support. Visual recordings serve as living documentation.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">3️⃣</div>
+                    <h3>Phase 3: Production Monitoring</h3>
+                    <p>Implemented continuous health checks running hourly and daily. Verifies authentication, transactions, balance calculations, and critical integrations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Technology</span>
+                <h2 class="section-title">Technology Stack</h2>
+            </div>
+
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <span class="tech-category">API Testing</span>
+                    <span class="tech-tools">Node.js, Mocha, Chai</span>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-category">E2E Testing</span>
+                    <span class="tech-tools">Playwright</span>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-category">CI/CD</span>
+                    <span class="tech-tools">Jenkins</span>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-category">Reporting</span>
+                    <span class="tech-tools">Testomat.io</span>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-category">Secrets</span>
+                    <span class="tech-tools">Psono</span>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-category">Test Data</span>
+                    <span class="tech-tools">Synthetic + Isolated Users</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Results</span>
+                <h2 class="section-title">Measurable Impact</h2>
+            </div>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Before</th>
+                        <th>After</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Smoke Testing Time</strong></td>
+                        <td class="before">2-3 days</td>
+                        <td class="after">&lt; 4 hours</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Regression Cycle</strong></td>
+                        <td class="before">2-3 weeks</td>
+                        <td class="after">Continuous</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Production Monitoring</strong></td>
+                        <td class="before">None</td>
+                        <td class="after">24/7 Automated</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Issue Detection</strong></td>
+                        <td class="before">Manual discovery</td>
+                        <td class="after">Instant alerts</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Release Confidence</strong></td>
+                        <td class="before">Low</td>
+                        <td class="after">High</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Lessons Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Insights</span>
+                <h2 class="section-title">Lessons for Fintech QA</h2>
+            </div>
+
+            <div class="lesson-list">
+                <div class="lesson-item">
+                    <span class="lesson-number">1</span>
+                    <span class="lesson-title">Prioritize API Testing Over E2E</span>
+                    <p class="lesson-desc">API tests provide reliable, fast feedback. E2E tests should complement—not replace—comprehensive API coverage. In fintech, verifying accounts, cards, and agreements at the API level is essential.</p>
+                </div>
+                <div class="lesson-item">
+                    <span class="lesson-number">2</span>
+                    <span class="lesson-title">Set Up Failure Notifications Early</span>
+                    <p class="lesson-desc">Don't wait for a production incident. Configure immediate notifications for test failures so the team can react before customers are impacted.</p>
+                </div>
+                <div class="lesson-item">
+                    <span class="lesson-number">3</span>
+                    <span class="lesson-title">Invest in Production Monitoring</span>
+                    <p class="lesson-desc">For financial platforms, knowing production works is non-negotiable. Daily health checks catch issues that lower environment testing might miss.</p>
+                </div>
+                <div class="lesson-item">
+                    <span class="lesson-number">4</span>
+                    <span class="lesson-title">Choose Tools for Longevity</span>
+                    <p class="lesson-desc">Evaluate framework sustainability. Growing community support ensures better long-term maintenance—this influenced our Playwright over Cypress decision.</p>
+                </div>
+                <div class="lesson-item">
+                    <span class="lesson-number">5</span>
+                    <span class="lesson-title">Secure Sensitive Data Properly</span>
+                    <p class="lesson-desc">Use dedicated credential management rather than storing secrets in repositories. Create isolated test users that don't interact with real customer data.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="cta-title">Ready to Transform Your QA Process?</h2>
+            <p class="cta-subtitle">Let's discuss how automation can accelerate your fintech development and boost release confidence.</p>
+            <a href="#contact" class="cta-button">Get in Touch</a>
+        </div>
+    </section>
+
+    <script>
+        // Simple scroll animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.card, .lesson-item, .tech-item').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
