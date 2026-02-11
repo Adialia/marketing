@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KindGeek — AI-Powered Test Automation</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0b0f;
+    --bg-card: #12131a;
+    --bg-card-hover: #181a24;
+    --surface: #1a1c28;
+    --border: rgba(255,255,255,0.06);
+    --border-accent: rgba(64,224,160,0.2);
+    --text: #e8e9ed;
+    --text-dim: #8a8d9b;
+    --text-muted: #5c5f6e;
+    --accent: #40e0a0;
+    --accent-dim: rgba(64,224,160,0.12);
+    --accent-glow: rgba(64,224,160,0.08);
+    --danger: #ff6b6b;
+    --danger-dim: rgba(255,107,107,0.1);
+    --gold: #ffd866;
+    --gold-dim: rgba(255,216,102,0.1);
+    --blue: #6bc5ff;
+    --blue-dim: rgba(107,197,255,0.1);
+    --font-display: 'Instrument Serif', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── Grain Overlay ─── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ─── Utility ─── */
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+  .section-label {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+  .section-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .section-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-dim);
+    max-width: 600px;
+    line-height: 1.7;
+  }
+
+  /* ─── Animations ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideLeft {
+    from { opacity: 0; transform: translateX(60px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .animate { opacity: 0; }
+  .animate.visible { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  .animate.visible.delay-1 { animation-delay: 0.1s; }
+  .animate.visible.delay-2 { animation-delay: 0.2s; }
+  .animate.visible.delay-3 { animation-delay: 0.3s; }
+  .animate.visible.delay-4 { animation-delay: 0.4s; }
+  .animate.visible.delay-5 { animation-delay: 0.5s; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 18px 0;
+    transition: all 0.4s;
+    background: transparent;
+  }
+  nav.scrolled {
+    background: rgba(10,11,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+  }
+  nav .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    color: var(--text);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: var(--bg);
+    font-weight: 700;
+    font-family: var(--font-body);
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+    transition: color 0.3s;
+    letter-spacing: 0.3px;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 600;
+    font-size: 0.88rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+    letter-spacing: 0.3px;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(64,224,160,0.25);
+  }
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    background: transparent;
+    color: var(--text);
+    font-weight: 500;
+    font-size: 0.88rem;
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 140px 0 100px;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+  .hero-bg .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    animation: float 8s ease-in-out infinite;
+  }
+  .hero-bg .orb-1 {
+    width: 500px; height: 500px;
+    background: rgba(64,224,160,0.06);
+    top: -100px; right: -100px;
+    animation-delay: 0s;
+  }
+  .hero-bg .orb-2 {
+    width: 400px; height: 400px;
+    background: rgba(107,197,255,0.04);
+    bottom: -50px; left: -100px;
+    animation-delay: -3s;
+  }
+  .hero-bg .grid-lines {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+  }
+  .hero .container { position: relative; z-index: 1; }
+  .hero-content { max-width: 780px; }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    background: var(--accent-dim);
+    border: 1px solid var(--border-accent);
+    border-radius: 50px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+  }
+  .hero-badge .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 5.2rem);
+    font-weight: 400;
+    line-height: 1.08;
+    margin-bottom: 28px;
+    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+    position: relative;
+  }
+  .hero p {
+    font-size: 1.15rem;
+    color: var(--text-dim);
+    max-width: 560px;
+    line-height: 1.75;
+    margin-bottom: 44px;
+    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+  }
+
+  /* ─── STATS BAR ─── */
+  .stats-bar {
+    padding: 0 0 100px;
+    position: relative;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .stat-item {
+    background: var(--bg-card);
+    padding: 40px 32px;
+    text-align: center;
+    transition: background 0.3s;
+  }
+  .stat-item:hover { background: var(--bg-card-hover); }
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat-label {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+
+  /* ─── COMPARISON ─── */
+  .comparison {
+    padding: 100px 0;
+  }
+  .comparison-header { text-align: center; margin-bottom: 64px; }
+  .comparison-header .section-subtitle { margin: 0 auto; }
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .comparison-card {
+    padding: 44px 40px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .comparison-card.old {
+    background: linear-gradient(135deg, rgba(255,107,107,0.03), var(--bg-card));
+    border-color: rgba(255,107,107,0.1);
+  }
+  .comparison-card.new {
+    background: linear-gradient(135deg, rgba(64,224,160,0.04), var(--bg-card));
+    border-color: var(--border-accent);
+  }
+  .comparison-card .card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 24px;
+  }
+  .comparison-card.old .card-icon {
+    background: var(--danger-dim);
+  }
+  .comparison-card.new .card-icon {
+    background: var(--accent-dim);
+  }
+  .comparison-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+  }
+  .comparison-card .card-tag {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    display: block;
+  }
+  .comparison-card.old .card-tag { color: var(--danger); }
+  .comparison-card.new .card-tag { color: var(--accent); }
+  .comparison-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .comparison-card ul li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.92rem;
+    color: var(--text-dim);
+    line-height: 1.55;
+  }
+  .comparison-card ul li .icon {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    margin-top: 2px;
+  }
+  .comparison-card.old ul li .icon {
+    background: var(--danger-dim);
+    color: var(--danger);
+  }
+  .comparison-card.new ul li .icon {
+    background: var(--accent-dim);
+    color: var(--accent);
+  }
+
+  /* ─── WHY TESTING ─── */
+  .why-testing { padding: 100px 0; }
+  .why-testing-header { margin-bottom: 64px; }
+  .cost-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 64px;
+  }
+  .cost-card {
+    padding: 32px 28px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+  }
+  .cost-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--danger), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .cost-card:hover::before { opacity: 1; }
+  .cost-card:hover {
+    border-color: rgba(255,107,107,0.15);
+    transform: translateY(-4px);
+  }
+  .cost-card .cost-icon {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+  }
+  .cost-card h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .cost-card p {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .entry-point { margin-top: 20px; }
+  .entry-point-header {
+    margin-bottom: 48px;
+  }
+  .entry-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+  .entry-card {
+    padding: 28px 22px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    text-align: center;
+    transition: all 0.4s;
+  }
+  .entry-card:hover {
+    border-color: var(--border-accent);
+    transform: translateY(-4px);
+  }
+  .entry-card .entry-icon {
+    font-size: 1.8rem;
+    margin-bottom: 14px;
+  }
+  .entry-card h4 {
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .entry-card p {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  /* ─── DIFFERENCE ─── */
+  .difference { padding: 100px 0; }
+  .difference-header { text-align: center; margin-bottom: 72px; }
+  .difference-header .section-subtitle { margin: 0 auto; }
+
+  .diff-section { margin-bottom: 64px; }
+  .diff-section:last-child { margin-bottom: 0; }
+  .diff-section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .diff-section-header .num {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .diff-section-header h3 {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+  }
+  .diff-section-header p {
+    font-size: 0.92rem;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+
+  .diff-features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    padding-left: 56px;
+  }
+  .diff-feature {
+    padding: 22px 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    transition: all 0.3s;
+  }
+  .diff-feature:hover { border-color: var(--border-accent); }
+  .diff-feature h5 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .diff-feature p {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    line-height: 1.55;
+  }
+
+  /* ─── PIPELINE ─── */
+  .pipeline-visual {
+    padding-left: 56px;
+    margin-top: 28px;
+  }
+  .pipeline-flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .pipeline-step {
+    padding: 12px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-dim);
+    position: relative;
+    transition: all 0.3s;
+  }
+  .pipeline-step:hover {
+    border-color: var(--border-accent);
+    color: var(--accent);
+  }
+  .pipeline-arrow {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    padding: 0 8px;
+  }
+
+  /* ─── ROI ─── */
+  .roi { padding: 100px 0; }
+  .roi-header { text-align: center; margin-bottom: 64px; }
+  .roi-header .section-subtitle { margin: 0 auto; }
+  .roi-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+  }
+  .roi-card {
+    padding: 36px 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    text-align: center;
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+  }
+  .roi-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.4s;
+  }
+  .roi-card:hover::after { transform: scaleX(1); }
+  .roi-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--border-accent);
+  }
+  .roi-metric {
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .roi-card h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .roi-card p {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  /* ─── TECH STACK ─── */
+  .tech-stack { padding: 100px 0; }
+  .tech-stack-header { margin-bottom: 64px; }
+  .tech-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .tech-group {
+    padding: 40px 36px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all 0.3s;
+  }
+  .tech-group:hover { border-color: var(--border-accent); }
+  .tech-group h3 {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+  }
+  .tech-group .tech-desc {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-bottom: 28px;
+  }
+  .tech-items { display: flex; flex-direction: column; gap: 14px; }
+  .tech-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--surface);
+    border-radius: var(--radius-sm);
+    transition: all 0.3s;
+  }
+  .tech-item:hover { background: var(--bg-card-hover); }
+  .tech-item .tech-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .tech-item .tech-name {
+    font-size: 0.88rem;
+    font-weight: 500;
+  }
+  .tech-item .tech-use {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    margin-left: auto;
+  }
+
+  /* ─── CTA ─── */
+  .cta {
+    padding: 120px 0;
+    position: relative;
+  }
+  .cta-inner {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 80px 60px;
+    background: linear-gradient(135deg, rgba(64,224,160,0.05), rgba(107,197,255,0.03));
+    border: 1px solid var(--border-accent);
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-inner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(64,224,160,0.08), transparent 60%);
+    pointer-events: none;
+  }
+  .cta-inner .section-label { justify-content: center; }
+  .cta-inner .section-title { margin-bottom: 16px; }
+  .cta-inner p {
+    font-size: 1.05rem;
+    color: var(--text-dim);
+    margin-bottom: 40px;
+    line-height: 1.7;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .cta-email {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+  }
+  .cta-email a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .cta-email a:hover { text-decoration: underline; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 0;
+  }
+  footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  footer p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+  footer a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.82rem;
+    transition: color 0.3s;
+  }
+  footer a:hover { color: var(--accent); }
+
+  /* ─── WHY AI FAILS ─── */
+  .fail-banner {
+    padding: 40px 36px;
+    background: var(--bg-card);
+    border: 1px solid rgba(255,107,107,0.1);
+    border-radius: var(--radius);
+    margin-bottom: 48px;
+  }
+  .fail-banner h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--danger);
+  }
+  .fail-items {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .fail-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.88rem;
+    color: var(--text-dim);
+  }
+  .fail-item .x-icon {
+    color: var(--danger);
+    font-weight: 700;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    .roi-grid { grid-template-columns: repeat(3, 1fr); }
+    .entry-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero { padding: 120px 0 80px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .comparison-grid { grid-template-columns: 1fr; }
+    .cost-grid { grid-template-columns: 1fr; }
+    .entry-grid { grid-template-columns: repeat(2, 1fr); }
+    .diff-features { grid-template-columns: 1fr; padding-left: 0; }
+    .pipeline-visual { padding-left: 0; }
+    .roi-grid { grid-template-columns: repeat(2, 1fr); }
+    .tech-grid { grid-template-columns: 1fr; }
+    .fail-items { grid-template-columns: 1fr; }
+    .cta-inner { padding: 50px 30px; }
+    .pipeline-flow { flex-wrap: wrap; gap: 8px; }
+    .pipeline-arrow { display: none; }
+  }
+  @media (max-width: 480px) {
+    .stats-grid { grid-template-columns: 1fr; }
+    .roi-grid { grid-template-columns: 1fr; }
+    .entry-grid { grid-template-columns: 1fr; }
+    .hero-actions { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="container">
+    <a href="#" class="logo">
+      <span class="logo-icon">K</span>
+      KindGeek
+    </a>
+    <ul class="nav-links">
+      <li><a href="#problem">The Problem</a></li>
+      <li><a href="#opportunity">Opportunity</a></li>
+      <li><a href="#approach">Our Approach</a></li>
+      <li><a href="#roi">ROI</a></li>
+      <li><a href="#tech">Tech Stack</a></li>
+    </ul>
+    <a href="#contact" class="btn-primary">Get Started →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="grid-lines"></div>
+  </div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        AI-Powered Quality Assurance
+      </div>
+      <h1>Every Day Without Full Test Automation is <em>Money Lost</em></h1>
+      <p>Start your AI transformation where it matters most: testing. KindGeek's AI-powered automation combines cutting-edge technology with human expertise to deliver 10× developer productivity and zero-defect releases.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Free 30-Min Consultation →</a>
+        <a href="#opportunity" class="btn-outline">See the ROI</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-bar">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item animate">
+        <div class="stat-number">10×</div>
+        <div class="stat-label">Developer Productivity</div>
+      </div>
+      <div class="stat-item animate delay-1">
+        <div class="stat-number">90%</div>
+        <div class="stat-label">Fewer Hotfixes</div>
+      </div>
+      <div class="stat-item animate delay-2">
+        <div class="stat-number">3×</div>
+        <div class="stat-label">Faster Releases</div>
+      </div>
+      <div class="stat-item animate delay-3">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Continuous Testing</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section class="comparison" id="problem">
+  <div class="container">
+    <div class="comparison-header animate">
+      <span class="section-label">Before & After</span>
+      <h2 class="section-title">From Bottleneck to <em>Breakthrough</em></h2>
+      <p class="section-subtitle">See how AI-powered testing transforms your development lifecycle from a constant struggle into a competitive advantage.</p>
+    </div>
+    <div class="comparison-grid">
+      <div class="comparison-card old animate delay-1">
+        <div class="card-icon">⏳</div>
+        <h3>The Old Reality</h3>
+        <span class="card-tag">Pre-AI Era</span>
+        <ul>
+          <li><span class="icon">✕</span> 1 QA engineer supports only 3–4 developers</li>
+          <li><span class="icon">✕</span> 2–3 week release cycles</li>
+          <li><span class="icon">✕</span> Testing is always the bottleneck</li>
+          <li><span class="icon">✕</span> Manual regression testing takes days</li>
+          <li><span class="icon">✕</span> 50–100 bugs escape to production per release</li>
+        </ul>
+      </div>
+      <div class="comparison-card new animate delay-2">
+        <div class="card-icon">⚡</div>
+        <h3>The AI-Powered Reality</h3>
+        <span class="card-tag">With KindGeek</span>
+        <ul>
+          <li><span class="icon">✓</span> 1 AI-enhanced QA engineer → up to 10 developers</li>
+          <li><span class="icon">✓</span> Daily or continuous releases</li>
+          <li><span class="icon">✓</span> Testing enables faster development</li>
+          <li><span class="icon">✓</span> Automated regression in 15–30 minutes</li>
+          <li><span class="icon">✓</span> Only 5–10 bugs escape to production per release</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY TESTING -->
+<section class="why-testing" id="opportunity">
+  <div class="container">
+    <div class="why-testing-header animate">
+      <span class="section-label">The AI Opportunity</span>
+      <h2 class="section-title">Why Testing is Your Best <em>Starting Point</em></h2>
+    </div>
+
+    <h3 style="font-family:var(--font-display); font-size:1.4rem; margin-bottom:28px;" class="animate">The Cost of Staying Manual</h3>
+    <div class="cost-grid">
+      <div class="cost-card animate delay-1">
+        <div class="cost-icon">💸</div>
+        <h4>Lost Developer Productivity</h4>
+        <p>Your team is stuck waiting for manual QA to catch up with development pace.</p>
+      </div>
+      <div class="cost-card animate delay-2">
+        <div class="cost-icon">🐌</div>
+        <h4>Delayed Releases</h4>
+        <p>Competitors ship features faster while your pipeline waits on testing.</p>
+      </div>
+      <div class="cost-card animate delay-3">
+        <div class="cost-icon">🐛</div>
+        <h4>Production Bugs</h4>
+        <p>Manual testing misses defects that AI-powered testing catches consistently.</p>
+      </div>
+      <div class="cost-card animate delay-1">
+        <div class="cost-icon">📉</div>
+        <h4>Customer Churn</h4>
+        <p>Poor quality and frequent issues drive users to your competitors.</p>
+      </div>
+      <div class="cost-card animate delay-2">
+        <div class="cost-icon">🚧</div>
+        <h4>Scaling Bottlenecks</h4>
+        <p>You can't hire QA engineers fast enough to keep pace with growth.</p>
+      </div>
+    </div>
+
+    <div class="entry-point animate">
+      <div class="entry-point-header">
+        <h3 style="font-family:var(--font-display); font-size:1.4rem; margin-bottom:8px;">The Perfect AI Entry Point</h3>
+        <p style="font-size:0.92rem; color:var(--text-dim);">Many companies struggle with where to start their AI transformation. Testing is the answer.</p>
+      </div>
+      <div class="entry-grid">
+        <div class="entry-card animate delay-1">
+          <div class="entry-icon">📊</div>
+          <h4>Immediate ROI</h4>
+          <p>See productivity gains within weeks, not months</p>
+        </div>
+        <div class="entry-card animate delay-2">
+          <div class="entry-icon">🛡️</div>
+          <h4>Low Risk</h4>
+          <p>Testing is isolated from production systems</p>
+        </div>
+        <div class="entry-card animate delay-3">
+          <div class="entry-icon">🤝</div>
+          <h4>Team Buy-In</h4>
+          <p>Developers love faster feedback cycles</p>
+        </div>
+        <div class="entry-card animate delay-4">
+          <div class="entry-icon">🚀</div>
+          <h4>AI Foundation</h4>
+          <p>Success here builds confidence for broader adoption</p>
+        </div>
+        <div class="entry-card animate delay-5">
+          <div class="entry-icon">✅</div>
+          <h4>Proven Tech</h4>
+          <p>AI testing tools are mature and battle-tested</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KINDGEEK DIFFERENCE -->
+<section class="difference" id="approach">
+  <div class="container">
+    <div class="difference-header animate">
+      <span class="section-label">The KindGeek Difference</span>
+      <h2 class="section-title">AI + Human <em>Expertise</em></h2>
+      <p class="section-subtitle">AI testing tools are powerful, but without proper architecture and integration they create more problems. We combine both.</p>
+    </div>
+
+    <!-- Fail Banner -->
+    <div class="fail-banner animate">
+      <h3>Why AI Tools Alone Fail</h3>
+      <div class="fail-items">
+        <div class="fail-item"><span class="x-icon">✕</span> Brittle tests that break with every code change</div>
+        <div class="fail-item"><span class="x-icon">✕</span> Isolated automation that developers ignore</div>
+        <div class="fail-item"><span class="x-icon">✕</span> Maintenance nightmares consuming more time than manual testing</div>
+        <div class="fail-item"><span class="x-icon">✕</span> False positives eroding team trust</div>
+      </div>
+    </div>
+
+    <!-- Section 1 -->
+    <div class="diff-section animate">
+      <div class="diff-section-header">
+        <span class="num">01</span>
+        <div>
+          <h3>Correct, Extensible Architecture</h3>
+          <p>Senior QA architects design frameworks that scale from 100 to 10,000+ tests</p>
+        </div>
+      </div>
+      <div class="diff-features">
+        <div class="diff-feature">
+          <h5>Modular Design</h5>
+          <p>Page Object Model and proven patterns for maintainable test suites</p>
+        </div>
+        <div class="diff-feature">
+          <h5>Separation of Concerns</h5>
+          <p>Reusable components and clear boundaries between test layers</p>
+        </div>
+        <div class="diff-feature">
+          <h5>Built for Change</h5>
+          <p>Tests adapt automatically as your UI evolves over time</p>
+        </div>
+        <div class="diff-feature">
+          <h5>Easy Onboarding</h5>
+          <p>New team members understand and extend tests from day one</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="diff-section animate">
+      <div class="diff-section-header">
+        <span class="num">02</span>
+        <div>
+          <h3>Integrated into Daily Workflow</h3>
+          <p>Tests are part of how your team works every day—not isolated scripts</p>
+        </div>
+      </div>
+      <div class="diff-features">
+        <div class="diff-feature">
+          <h5>For Developers</h5>
+          <p>Pre-commit checks, PR validation, instant feedback, clear failure messages, video replays</p>
+        </div>
+        <div class="diff-feature">
+          <h5>For DevOps</h5>
+          <p>Deployment gates, smoke tests, environment validation, performance baselines</p>
+        </div>
+        <div class="diff-feature">
+          <h5>CI/CD Integration</h5>
+          <p>Tests run automatically on every commit, blocking merges when tests fail</p>
+        </div>
+        <div class="diff-feature">
+          <h5>Real-time Visibility</h5>
+          <p>Dashboards, Slack/Teams notifications, JIRA integration for full transparency</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="diff-section animate">
+      <div class="diff-section-header">
+        <span class="num">03</span>
+        <div>
+          <h3>No Bugs Leak Through Releases</h3>
+          <p>Defense in depth—multiple test layers catching bugs at every stage</p>
+        </div>
+      </div>
+      <div class="pipeline-visual">
+        <div class="pipeline-flow">
+          <span class="pipeline-step">Unit Tests</span>
+          <span class="pipeline-arrow">→</span>
+          <span class="pipeline-step">Integration Tests</span>
+          <span class="pipeline-arrow">→</span>
+          <span class="pipeline-step">E2E Tests</span>
+          <span class="pipeline-arrow">→</span>
+          <span class="pipeline-step">Visual Tests</span>
+          <span class="pipeline-arrow">→</span>
+          <span class="pipeline-step">Performance Tests</span>
+          <span class="pipeline-arrow">→</span>
+          <span class="pipeline-step">Security Tests</span>
+        </div>
+      </div>
+      <div class="diff-features" style="margin-top: 24px;">
+        <div class="diff-feature">
+          <h5>Every Stage Covered</h5>
+          <p>Commit → PR → Staging → Pre-production → Production monitoring</p>
+        </div>
+        <div class="diff-feature">
+          <h5>Zero Flaky Tests</h5>
+          <p>AI eliminates false positives with automatic rollback on failures</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROI -->
+<section class="roi" id="roi">
+  <div class="container">
+    <div class="roi-header animate">
+      <span class="section-label">Real Results</span>
+      <h2 class="section-title">The ROI is <em>Development Speed</em></h2>
+      <p class="section-subtitle">Your investment in AI testing pays for itself through dramatically faster delivery and fewer firefights.</p>
+    </div>
+    <div class="roi-grid">
+      <div class="roi-card animate delay-1">
+        <div class="roi-metric">3×</div>
+        <h4>Faster Releases</h4>
+        <p>Beat competitors to market with rapid feature delivery</p>
+      </div>
+      <div class="roi-card animate delay-2">
+        <div class="roi-metric">50%</div>
+        <h4>More Capacity</h4>
+        <p>Developers spend time coding, not waiting for QA</p>
+      </div>
+      <div class="roi-card animate delay-3">
+        <div class="roi-metric">90%</div>
+        <h4>Fewer Hotfixes</h4>
+        <p>Stop context-switching for emergency bug fixes</p>
+      </div>
+      <div class="roi-card animate delay-4">
+        <div class="roi-metric">24/7</div>
+        <h4>Continuous Testing</h4>
+        <p>Tests run while your team sleeps</p>
+      </div>
+      <div class="roi-card animate delay-5">
+        <div class="roi-metric">∞</div>
+        <h4>Fearless Refactoring</h4>
+        <p>Comprehensive coverage means confident changes</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="tech-stack" id="tech">
+  <div class="container">
+    <div class="tech-stack-header animate">
+      <span class="section-label">Technology</span>
+      <h2 class="section-title">Proven Frameworks + <em>Cutting-Edge AI</em></h2>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-group animate delay-1">
+        <h3>Core Frameworks</h3>
+        <p class="tech-desc">Battle-tested tools for every testing scenario</p>
+        <div class="tech-items">
+          <div class="tech-item">
+            <span class="tech-dot" style="background:var(--accent)"></span>
+            <span class="tech-name">Playwright, Cypress, Selenium</span>
+            <span class="tech-use">Web Testing</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-dot" style="background:var(--blue)"></span>
+            <span class="tech-name">Appium, Detox</span>
+            <span class="tech-use">Mobile Testing</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-dot" style="background:var(--gold)"></span>
+            <span class="tech-name">Postman, REST Assured</span>
+            <span class="tech-use">API Testing</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-dot" style="background:var(--danger)"></span>
+            <span class="tech-name">JMeter, k6</span>
+            <span class="tech-use">Performance Testing</span>
+          </div>
+        </div>
+      </div>
+      <div class="tech-group animate delay-2">
+        <h3>AI Enhancement Layer</h3>
+        <p class="tech-desc">Intelligent automation that evolves with your product</p>
+        <div class="tech-items">
+          <div class="tech-item">
+            <span class="tech-dot" style="background:var(--accent)"></span>
+            <span class="tech-name">Testim, Mabl, Functionize</span>
+            <span class="tech-use">Self-Healing Tests</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-dot" style="background:var(--blue)"></span>
+            <span class="tech-name">Applitools, Percy</span>
+            <span class="tech-use">Visual AI Testing</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-dot" style="background:var(--gold)"></span>
+            <span class="tech-name">Launchable</span>
+            <span class="tech-use">Intelligent Test Selection</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-dot" style="background:var(--danger)"></span>
+            <span class="tech-name">GitHub Copilot, GPT-4</span>
+            <span class="tech-use">AI Test Generation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="contact">
+  <div class="container">
+    <div class="cta-inner animate">
+      <span class="section-label">Get Started</span>
+      <h2 class="section-title">Stop Losing Money.<br>Start Your AI Testing <em>Transformation</em></h2>
+      <p>Free 30-minute consultation. We'll analyze your current testing approach, calculate your ROI, and provide actionable recommendations. No sales pitch—just expert advice.</p>
+      <div class="cta-actions">
+        <a href="mailto:info@kindgeek.com" class="btn-primary">Book Free Consultation →</a>
+        <a href="#" class="btn-outline">Download Executive Guide</a>
+      </div>
+      <div class="cta-email">
+        Or email us directly at <a href="mailto:info@kindgeek.com">info@kindgeek.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p>© 2026 KindGeek. AI-Powered Test Automation.</p>
+    <a href="mailto:info@kindgeek.com">info@kindgeek.com</a>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Intersection Observer for animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.animate').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
