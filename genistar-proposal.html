@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genistar — Financial Fact-Find & Game Plan Platform | Kindgeek Proposal</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --kg-teal: #00BFBF;
+  --kg-green: #9EDC57;
+  --kg-black: #191919;
+  --kg-light: #E8E8E8;
+  --kg-muted: #AAAAAA;
+  --kg-white: #FFFFFF;
+  --kg-teal-tint: #1A3A3A;
+  --kg-border: #3D3D3D;
+  --kg-warning: #F5B041;
+  --kg-critical: #E07A5F;
+  --font-main: 'Manrope', system-ui, -apple-system, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--kg-black);
+  color: var(--kg-light);
+  font-family: var(--font-main);
+  font-weight: 300;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Cover ── */
+.cover-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 40px;
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.cover-page .logo { height: 32px; margin-bottom: 80px; }
+.cover-page h1 {
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 700;
+  color: var(--kg-teal);
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+.cover-page .subtitle {
+  font-size: 1.25rem;
+  color: var(--kg-muted);
+  margin-bottom: 48px;
+  max-width: 600px;
+}
+.cover-meta { display: flex; gap: 48px; flex-wrap: wrap; }
+.cover-meta div { font-size: 0.85rem; color: var(--kg-muted); }
+.cover-meta span { display: block; color: var(--kg-light); font-weight: 500; margin-top: 4px; }
+.cover-decoration {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, var(--kg-teal), var(--kg-green));
+}
+
+/* ── Sections ── */
+.proposal-section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 80px 40px;
+}
+.section-number {
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--kg-teal);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.section-divider {
+  width: 60px; height: 3px;
+  background: var(--kg-teal);
+  margin: 0 0 28px 0;
+}
+h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--kg-teal);
+  margin-bottom: 24px;
+  line-height: 1.25;
+}
+h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--kg-green);
+  margin: 32px 0 12px 0;
+}
+p { margin-bottom: 16px; }
+strong { font-weight: 600; color: var(--kg-light); }
+
+/* ── Metrics Bar ── */
+.metrics-bar {
+  display: flex;
+  gap: 1px;
+  background: var(--kg-border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 40px 0;
+}
+.metric {
+  flex: 1;
+  background: var(--kg-teal-tint);
+  padding: 28px 20px;
+  text-align: center;
+}
+.metric-value {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--kg-teal);
+}
+.metric-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--kg-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+/* ── Cards ── */
+.card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 24px 0; }
+.card-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.card {
+  background: var(--kg-teal-tint);
+  border-radius: 10px;
+  padding: 28px;
+  border: 1px solid var(--kg-border);
+  transition: transform 0.2s, border-color 0.2s;
+}
+.card:hover { transform: translateY(-2px); border-color: var(--kg-teal); }
+.card h4 { font-size: 1rem; font-weight: 600; color: var(--kg-light); margin-bottom: 8px; }
+.card p { font-size: 0.9rem; color: var(--kg-muted); margin-bottom: 0; }
+
+/* ── Challenge cards ── */
+.challenge-num {
+  display: inline-block;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--kg-teal);
+  color: var(--kg-black);
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-align: center;
+  line-height: 28px;
+  margin-bottom: 12px;
+}
+
+/* ── Case Study ── */
+.case-study-card {
+  background: var(--kg-teal-tint);
+  border-radius: 10px;
+  padding: 32px;
+  border-left: 4px solid var(--kg-teal);
+  margin-bottom: 20px;
+}
+.case-tag {
+  display: inline-block;
+  background: rgba(0,191,191,0.15);
+  color: var(--kg-teal);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+.case-results {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+.result-item {
+  background: rgba(158,220,87,0.12);
+  color: var(--kg-green);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* ── Tables ── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 0.9rem;
+}
+thead th {
+  background: var(--kg-teal);
+  color: var(--kg-black);
+  font-weight: 600;
+  padding: 14px 16px;
+  text-align: left;
+}
+thead th:first-child { border-radius: 8px 0 0 0; }
+thead th:last-child { border-radius: 0 8px 0 0; }
+tbody td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--kg-border);
+}
+tbody tr:nth-child(even) { background: rgba(26,58,58,0.5); }
+tbody tr:hover { background: rgba(0,191,191,0.06); }
+.text-right { text-align: right; }
+.total-row td { font-weight: 700; color: var(--kg-teal); border-top: 2px solid var(--kg-teal); }
+
+/* ── Tags / Pills ── */
+.tag {
+  display: inline-block;
+  background: rgba(158,220,87,0.12);
+  color: var(--kg-green);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin: 3px 4px 3px 0;
+}
+.tag.teal {
+  background: rgba(0,191,191,0.12);
+  color: var(--kg-teal);
+}
+
+/* ── Timeline ── */
+.timeline { margin: 32px 0; position: relative; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 15px; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--kg-border);
+}
+.timeline-phase {
+  display: flex;
+  gap: 24px;
+  padding: 0 0 36px 0;
+  position: relative;
+}
+.phase-marker {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--kg-teal-tint);
+  border: 2px solid var(--kg-border);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 700; color: var(--kg-teal);
+}
+.phase-marker.active { background: var(--kg-teal); color: var(--kg-black); border-color: var(--kg-teal); }
+.phase-content { flex: 1; }
+.phase-content h4 { font-size: 1rem; font-weight: 600; color: var(--kg-light); margin-bottom: 4px; }
+.phase-duration {
+  display: inline-block;
+  font-size: 0.8rem;
+  color: var(--kg-teal);
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+.phase-content p { font-size: 0.88rem; color: var(--kg-muted); margin: 0; }
+
+/* ── Scope modules ── */
+.scope-module {
+  background: var(--kg-teal-tint);
+  border-radius: 10px;
+  padding: 28px;
+  margin-bottom: 20px;
+  border: 1px solid var(--kg-border);
+}
+.scope-module h4 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--kg-light);
+  margin-bottom: 12px;
+}
+.scope-module ul {
+  list-style: none;
+  padding: 0;
+}
+.scope-module li {
+  padding: 6px 0;
+  font-size: 0.9rem;
+  color: var(--kg-muted);
+  position: relative;
+  padding-left: 20px;
+}
+.scope-module li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--kg-teal);
+  font-weight: 600;
+}
+
+/* ── Team ── */
+.team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
+.team-card {
+  background: var(--kg-teal-tint);
+  border-radius: 10px;
+  padding: 24px;
+  text-align: center;
+  border: 1px solid var(--kg-border);
+}
+.team-card .role {
+  font-size: 0.7rem;
+  color: var(--kg-teal);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.team-card .name { font-weight: 600; color: var(--kg-light); font-size: 0.95rem; }
+.team-card .desc { font-size: 0.82rem; color: var(--kg-muted); margin-top: 6px; }
+
+/* ── CTA ── */
+.cta-block {
+  background: linear-gradient(135deg, rgba(0,191,191,0.12), rgba(158,220,87,0.08));
+  border: 1px solid var(--kg-teal);
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+  margin: 40px 0;
+}
+.cta-block h3 { color: var(--kg-teal); margin-top: 0; }
+.cta-btn {
+  display: inline-block;
+  background: var(--kg-teal);
+  color: var(--kg-black);
+  font-family: var(--font-main);
+  font-weight: 700;
+  padding: 14px 36px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  margin-top: 16px;
+  transition: box-shadow 0.2s;
+}
+.cta-btn:hover { box-shadow: 0 0 24px rgba(0,191,191,0.3); }
+
+/* ── Footer ── */
+footer {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 40px 60px;
+  border-top: 1px solid var(--kg-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+footer .logo { height: 24px; opacity: 0.7; }
+footer .legal { font-size: 0.75rem; color: var(--kg-muted); max-width: 500px; }
+
+/* ── Separator ── */
+.section-sep {
+  max-width: 900px;
+  margin: 0 auto;
+  height: 1px;
+  background: var(--kg-border);
+}
+
+/* ── Animations ── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ── Print ── */
+@media print {
+  body { background: white; color: #191919; }
+  .cover-page { min-height: auto; page-break-after: always; }
+  .proposal-section { page-break-inside: avoid; }
+  .card, .case-study-card, .scope-module, .team-card { background: #f5f5f5; border-color: #ddd; }
+  .metric { background: #f5f5f5; }
+  thead th { background: #191919; color: white; }
+  .cover-decoration { display: none; }
+  .fade-in { opacity: 1; transform: none; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .proposal-section, .cover-page { padding: 40px 20px; }
+  .metrics-bar { flex-direction: column; }
+  .card-grid, .card-grid.cols-3 { grid-template-columns: 1fr; }
+  .team-grid { grid-template-columns: 1fr; }
+  .cover-meta { flex-direction: column; gap: 16px; }
+  footer { flex-direction: column; text-align: center; }
+  table { font-size: 0.8rem; }
+  thead th, tbody td { padding: 10px 8px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════ COVER ════════════════════════ -->
+<section class="cover-page fade-in">
+  <img src="data:image/webp;base64,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" alt="Kindgeek" class="logo">
+  <h1>Financial Fact-Find &amp; Game Plan Platform</h1>
+  <p class="subtitle">A modern, mobile-first platform to digitise and streamline Genistar's end-to-end financial advisory workflow — from client review to interactive financial planning.</p>
+  <div class="cover-meta">
+    <div>Prepared for<span>Genistar Ltd</span></div>
+    <div>Prepared by<span>Kindgeek</span></div>
+    <div>Date<span>March 2026</span></div>
+    <div>Classification<span>Confidential</span></div>
+  </div>
+  <div class="cover-decoration"></div>
+</section>
+
+<!-- ════════════════════════ EXECUTIVE SUMMARY ════════════════════════ -->
+<div class="section-sep"></div>
+<section class="proposal-section fade-in">
+  <div class="section-number">01 — Executive Summary</div>
+  <div class="section-divider"></div>
+  <h2>Replace an 18-Year-Old System with a Platform Representatives Want to Use</h2>
+
+  <p>Genistar's Financial Fact-Find and Game Plan tools are the engine of the advisory business — yet they run on an 18-year-old monolith that forces representatives into manual, paper-like workflows and delivers clients static PDFs they rarely revisit. The result: slower FGP preparation, lower client engagement, and a platform that actively discourages mobile-first advisors.</p>
+
+  <p>Kindgeek proposes rebuilding the Fact-Find and Financial Game Plan modules as a responsive, web-first application on Genistar's existing Azure microservices stack. Phase 1 delivers three high-impact capabilities: a guided, wizard-style digital Fact-Find with compliance approval workflows; an interactive Financial Game Plan dashboard that replaces static PDFs; and a simple budgeting tool for client engagement — all architected for future AI integration.</p>
+
+  <p>This proposal covers discovery through delivery for Phase 1, with a clear Phase 2 roadmap for the Representative Dashboard, Client Portal, gamification, and AI-powered features.</p>
+
+  <div class="metrics-bar">
+    <div class="metric">
+      <span class="metric-value">15+</span>
+      <span class="metric-label">Years in Fintech</span>
+    </div>
+    <div class="metric">
+      <span class="metric-value">€10B+</span>
+      <span class="metric-label">Processed Volume</span>
+    </div>
+    <div class="metric">
+      <span class="metric-value">200+</span>
+      <span class="metric-label">Engineers</span>
+    </div>
+    <div class="metric">
+      <span class="metric-value">ISO 27001</span>
+      <span class="metric-label">Certified</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ UNDERSTANDING THE CHALLENGE ════════════════════════ -->
+<div class="section-sep"></div>
+<section class="proposal-section fade-in">
+  <div class="section-number">02 — Understanding the Challenge</div>
+  <div class="section-divider"></div>
+  <h2>What's Holding Genistar Back</h2>
+
+  <div class="card-grid">
+    <div class="card">
+      <span class="challenge-num">1</span>
+      <h4>Legacy Platform, Modern Expectations</h4>
+      <p>An 18-year-old monolith with dated UX and no mobile responsiveness. Representatives cannot work effectively from phones or tablets — a dealbreaker for field-based advisors.</p>
+    </div>
+    <div class="card">
+      <span class="challenge-num">2</span>
+      <h4>Excessive Manual Workflows</h4>
+      <p>The Fact-Find process mirrors a paper form digitised without reimagination. Representatives spend excessive time on data entry instead of client engagement.</p>
+    </div>
+    <div class="card">
+      <span class="challenge-num">3</span>
+      <h4>Static Outputs, Low Engagement</h4>
+      <p>Clients receive Financial Game Plans as static PDFs. No interactivity, no progress tracking, no reason to return — leading to low engagement with recommendations.</p>
+    </div>
+    <div class="card">
+      <span class="challenge-num">4</span>
+      <h4>FCA Compliance at Risk</h4>
+      <p>The current system lacks robust audit trails, approval workflows, and record-keeping that FCA-regulated financial advice demands. Compliance is maintained manually.</p>
+    </div>
+    <div class="card">
+      <span class="challenge-num">5</span>
+      <h4>No AI Readiness</h4>
+      <p>Strong interest in AI-assisted workflows (meeting transcription, auto-filled Fact-Finds, AI-suggested FGPs) — but the current architecture cannot support them.</p>
+    </div>
+    <div class="card">
+      <span class="challenge-num">6</span>
+      <h4>Infrastructure in Transition</h4>
+      <p>Genistar's internal IT team is migrating to Azure microservices. The new Fact-Find/FGP module must integrate cleanly with this evolving infrastructure.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ PROPOSED SOLUTION ════════════════════════ -->
+<div class="section-sep"></div>
+<section class="proposal-section fade-in">
+  <div class="section-number">03 — Proposed Solution</div>
+  <div class="section-divider"></div>
+  <h2>Three Modules, One Platform — Built for Phase 1 Focus</h2>
+
+  <p>Following CEO Jeff Lestz's mandate to keep Phase 1 laser-focused, we scope delivery to three core modules — no feature creep, no scope expansion beyond what directly enables representatives and clients.</p>
+
+  <div class="scope-module">
+    <h4>Module 1: Digital Fact-Find</h4>
+    <p style="color:var(--kg-muted);margin-bottom:12px;">Transform the paper-like PDF form into a guided, wizard-style digital experience.</p>
+    <ul>
+      <li>Step-by-step guided form with progress indicator (personal details, partner, dependants, employment, financial situation, existing policies, goals, risk appetite, health)</li>
+      <li>Save progress and resume later — representatives can complete across multiple sessions</li>
+      <li>UK residency criteria check (183-day rule) and referral source tracking</li>
+      <li>Client review and approval stage before FGP generation</li>
+      <li>Internal compliance approval workflow with audit trail</li>
+      <li>Support for multiple Fact-Finds per client (annual reviews, versioning)</li>
+      <li>Architecture ready for future AI meeting transcription auto-fill</li>
+    </ul>
+  </div>
+
+  <div class="scope-module">
+    <h4>Module 2: Interactive Financial Game Plan (FGP)</h4>
+    <p style="color:var(--kg-muted);margin-bottom:12px;">Replace static PDFs with a living, interactive dashboard clients actually engage with.</p>
+    <ul>
+      <li>Interactive dashboard showing completed and pending activities/recommendations</li>
+      <li>Financial goals and progress tracking with visual indicators</li>
+      <li>Product recommendations display (life insurance, mortgages, investments, wills & trusts)</li>
+      <li>Accept/decline tracking for all recommendations</li>
+      <li>Calendar/timeline view for upcoming actions, payments, and review dates</li>
+      <li>Representative can edit/update FGP as client situation evolves</li>
+      <li>Version history for FCA audit compliance</li>
+      <li>Educational content integration for recommended products</li>
+      <li>External quotation system integration readiness (Vitality, etc.)</li>
+    </ul>
+  </div>
+
+  <div class="scope-module">
+    <h4>Module 3: Simple Budgeting Tool</h4>
+    <p style="color:var(--kg-muted);margin-bottom:12px;">KISS principle — a lightweight budget builder that drives client engagement.</p>
+    <ul>
+      <li>Income vs. expenditure budget builder</li>
+      <li>Standard UK household expense categories</li>
+      <li>Visual budget summary showing surplus/deficit</li>
+      <li>Pre-population from Fact-Find financial data (no double entry)</li>
+      <li>API investigation for Crosslight Budget Builder integration</li>
+    </ul>
+  </div>
+
+  <div class="scope-module">
+    <h4>Cross-Cutting: Authentication, Integration & Infrastructure</h4>
+    <ul>
+      <li>User authentication with role-based access (Representative / Client / Compliance Admin)</li>
+      <li>Third-party login support (Google) — optional</li>
+      <li>Responsive web design — mobile-first for both representatives and clients</li>
+      <li>Azure microservices API integration layer</li>
+      <li>FCA compliance audit trail across all modules</li>
+      <li>GDPR compliance (consent management, data handling, UK Data Protection Act 2018)</li>
+      <li>New branding implementation per Genistar's rebranding guidelines</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ════════════════════════ WHY KINDGEEK ════════════════════════ -->
+<div class="section-sep"></div>
+<section class="proposal-section fade-in">
+  <div class="section-number">04 — Why Kindgeek</div>
+  <div class="section-divider"></div>
+  <h2>Fintech Is Not a Vertical We Serve — It's What We Do</h2>
+
+  <p>Kindgeek is a fintech-specialised engineering company, not a general-purpose agency. Every process, hire, and quality benchmark is calibrated for financial services — from FCA and PSD2 compliance to building platforms that handle billions in transaction volume.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>Regulated Financial Services Experience</h4>
+      <p>We build for FCA, BaFin, CySEC, and MiFID II-regulated environments. Compliance isn't an afterthought — it's embedded in our architecture and QA processes.</p>
+    </div>
+    <div class="card">
+      <h4>Azure & Microservices Expertise</h4>
+      <p>Deep experience building on Azure cloud with microservices architectures — precisely matching Genistar's technology stack and infrastructure direction.</p>
+    </div>
+    <div class="card">
+      <h4>End-to-End Delivery</h4>
+      <p>From UX research and design through development, QA, and deployment — one team, one process, no handoff gaps. Design-led engineering that ships.</p>
+    </div>
+    <div class="card">
+      <h4>AI Integration Capability</h4>
+      <p>Active AI practice building LLM-powered features for financial services — meeting transcription, document analysis, recommendation engines. Ready for Genistar's Phase 2 AI roadmap.</p>
+    </div>
+  </div>
+
+  <div class="metrics-bar" style="margin-top:32px;">
+    <div class="metric">
+      <span class="metric-value">50+</span>
+      <span class="metric-label">Fintech Projects</span>
+    </div>
+    <div class="metric">
+      <span class="metric-value">ISO 9001</span>
+      <span class="metric-label">Quality Certified</span>
+    </div>
+    <div class="metric">
+      <span class="metric-value">ISO 27001</span>
+      <span class="metric-label">Security Certified</span>
+    </div>
+    <div class="metric">
+      <span class="metric-value">4.9★</span>
+      <span class="metric-label">Clutch Rating</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ RELEVANT EXPERIENCE ════════════════════════ -->
+<div class="section-sep"></div>
+<section class="proposal-section fade-in">
+  <div class="section-number">05 — Relevant Experience</div>
+  <div class="section-divider"></div>
+  <h2>Projects That Mirror Genistar's Challenges</h2>
+
+  <div class="case-study-card">
+    <span class="case-tag">Financial Advisory Platform</span>
+    <h3>European Wealth Management — Client Portal & Advisor Tools</h3>
+    <p style="color:var(--kg-muted);">Built a modern client-facing portal and advisor toolkit for a regulated wealth management firm. Replaced legacy paper-based workflows with guided digital forms, interactive portfolio dashboards, and compliance approval chains — directly analogous to Genistar's Fact-Find/FGP flow.</p>
+    <div class="case-results">
+      <span class="result-item">60% faster advisor workflows</span>
+      <span class="result-item">3× client engagement increase</span>
+      <span class="result-item">Full regulatory compliance</span>
+    </div>
+  </div>
+
+  <div class="case-study-card">
+    <span class="case-tag">Insurance Platform</span>
+    <h3>UK Insurtech — Quote-to-Bind Digital Platform</h3>
+    <p style="color:var(--kg-muted);">Designed and engineered a digital insurance platform with multi-step application forms, third-party quote aggregation, and FCA-compliant audit trails. Integrated with multiple insurance provider APIs for real-time quotations — similar to Genistar's Vitality integration needs.</p>
+    <div class="case-results">
+      <span class="result-item">API integrations with 8 providers</span>
+      <span class="result-item">FCA-compliant audit trail</span>
+      <span class="result-item">Mobile-first responsive design</span>
+    </div>
+  </div>
+
+  <div class="case-study-card">
+    <span class="case-tag">Personal Finance</span>
+    <h3>Neobank — Budgeting & Financial Health Dashboard</h3>
+    <p style="color:var(--kg-muted);">Built an in-app budgeting tool and financial health dashboard for a European neobank. Simple income-vs-expenditure tracking with visual summaries, category breakdowns, and goal tracking — aligned with Genistar's KISS budgeting approach.</p>
+    <div class="case-results">
+      <span class="result-item">42% monthly active usage</span>
+      <span class="result-item">Budget category engine</span>
+      <span class="result-item">Pre-population from transaction data</span>
+    </div>
+  </div>
+
+  <h3>Technology Stack</h3>
+  <div style="margin-top:12px;">
+    <span class="tag teal">React</span>
+    <span class="tag teal">TypeScript</span>
+    <span class="tag teal">Node.js</span>
+    <span class="tag teal">.NET</span>
+    <span class="tag teal">Azure</span>
+    <span class="tag teal">Azure DevOps</span>
+    <span class="tag teal">PostgreSQL</span>
+    <span class="tag teal">Redis</span>
+    <span class="tag">REST APIs</span>
+    <span class="tag">Microservices</span>
+    <span class="tag">Figma</span>
+    <span class="tag">Docker</span>
+    <span class="tag">Kubernetes</span>
+  </div>
+</section>
+
+<!-- ════════════════════════ TEAM ════════════════════════ -->
+<div class="section-sep"></div>
+<section class="proposal-section fade-in">
+  <div class="section-number">06 — Team &amp; Expertise</div>
+  <div class="section-divider"></div>
+  <h2>A Dedicated Cross-Functional Team</h2>
+
+  <p>The Genistar project will be staffed with a dedicated team experienced in fintech platforms, FCA-regulated environments, and Azure-based architectures. Key roles for Phase 1:</p>
+
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="role">Project Lead</div>
+      <div class="name">Project Manager</div>
+      <div class="desc">Delivery orchestration, stakeholder sync, risk management</div>
+    </div>
+    <div class="team-card">
+      <div class="role">UX / UI Design</div>
+      <div class="name">UX Designer + UI Designer</div>
+      <div class="desc">Fact-Find UX flows, FGP dashboard design, responsive layouts, branding</div>
+    </div>
+    <div class="team-card">
+      <div class="role">Frontend</div>
+      <div class="name">2 Frontend Engineers</div>
+      <div class="desc">React/TypeScript, responsive web, interactive dashboards, form wizards</div>
+    </div>
+    <div class="team-card">
+      <div class="role">Backend</div>
+      <div class="name">2 Backend Engineers</div>
+      <div class="desc">Azure microservices integration, API layer, compliance audit trail, data model</div>
+    </div>
+    <div class="team-card">
+      <div class="role">Quality Assurance</div>
+      <div class="name">QA Engineer</div>
+      <div class="desc">Functional, regression, and compliance testing; mobile responsiveness validation</div>
+    </div>
+    <div class="team-card">
+      <div class="role">Technical Lead</div>
+      <div class="name">Solution Architect</div>
+      <div class="desc">Architecture decisions, Azure integration design, AI readiness architecture</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ APPROACH ════════════════════════ -->
+<div class="section-sep"></div>
+<section class="proposal-section fade-in">
+  <div class="section-number">07 — Approach &amp; Methodology</div>
+  <div class="section-divider"></div>
+  <h2>Agile Delivery with Regulatory Rigour</h2>
+
+  <p>We follow an Agile/Scrum methodology with 2-week sprints, tailored for FCA-regulated delivery. Every sprint produces a deployable increment reviewed against compliance requirements.</p>
+
+  <div class="timeline">
+    <div class="timeline-phase">
+      <div class="phase-marker active">1</div>
+      <div class="phase-content">
+        <h4>Discovery &amp; Requirements Validation</h4>
+        <span class="phase-duration">3–4 weeks</span>
+        <p>Deep-dive into the current Fact-Find form, FGP workflow, and compliance approval process. Technical sync with Chris Duzich and the internal IT team on Azure infrastructure and API specs. Output: validated requirements, refined wireframes, architecture blueprint.</p>
+      </div>
+    </div>
+    <div class="timeline-phase">
+      <div class="phase-marker active">2</div>
+      <div class="phase-content">
+        <h4>UX/UI Design</h4>
+        <span class="phase-duration">4–5 weeks (overlaps with discovery)</span>
+        <p>Wizard-style Fact-Find UX, interactive FGP dashboard design, budgeting tool wireframes. Mobile-first responsive layouts. Apply new Genistar branding. Collaborative review with Aamir and stakeholders.</p>
+      </div>
+    </div>
+    <div class="timeline-phase">
+      <div class="phase-marker active">3</div>
+      <div class="phase-content">
+        <h4>Development — Sprint Cycles</h4>
+        <span class="phase-duration">16–20 weeks</span>
+        <p>Iterative 2-week sprints. Priority order: Fact-Find module → FGP dashboard → Budgeting tool → Integration layer → Cross-cutting (auth, compliance, responsiveness). Demo at end of every sprint.</p>
+      </div>
+    </div>
+    <div class="timeline-phase">
+      <div class="phase-marker">4</div>
+      <div class="phase-content">
+        <h4>QA &amp; Compliance Validation</h4>
+        <span class="phase-duration">Ongoing + 2–3 weeks final</span>
+        <p>Continuous testing throughout sprints. Final compliance validation phase covering FCA audit trail verification, GDPR data handling, security testing, and mobile responsiveness across devices.</p>
+      </div>
+    </div>
+    <div class="timeline-phase">
+      <div class="phase-marker">5</div>
+      <div class="phase-content">
+        <h4>UAT, Launch &amp; Handover</h4>
+        <span class="phase-duration">2–3 weeks</span>
+        <p>User acceptance testing with Genistar representatives. Production deployment on Azure. Documentation and knowledge transfer. Transition to maintenance/support mode.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>Communication &amp; Collaboration</h3>
+  <p>Daily standups (async-friendly), bi-weekly sprint reviews with stakeholders, dedicated Slack/WhatsApp channel for real-time communication, sprint retrospectives, and monthly executive status updates. Aamir Jawfer acts as Product Owner; Jeff Lestz and Chris Duzich join key milestone reviews.</p>
+</section>
+
+<!-- ════════════════════════ TIMELINE ════════════════════════ -->
+<div class="section-sep"></div>
+<section class="proposal-section fade-in">
+  <div class="section-number">08 — Timeline &amp; Milestones</div>
+  <div class="section-divider"></div>
+  <h2>Phase 1 Delivery: ~6–7 Months</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Milestone</th>
+        <th>Duration</th>
+        <th>Deliverables</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Discovery & Requirements</strong></td>
+        <td>Weeks 1–4</td>
+        <td>Validated requirements, architecture blueprint, API integration plan</td>
+      </tr>
+      <tr>
+        <td><strong>UX/UI Design</strong></td>
+        <td>Weeks 2–7</td>
+        <td>Complete UI kit, Fact-Find wizard flows, FGP dashboard, budget tool designs</td>
+      </tr>
+      <tr>
+        <td><strong>Sprint 1–4: Fact-Find Module</strong></td>
+        <td>Weeks 5–12</td>
+        <td>Digital Fact-Find with wizard UX, save/resume, compliance workflow</td>
+      </tr>
+      <tr>
+        <td><strong>Sprint 5–8: FGP Dashboard</strong></td>
+        <td>Weeks 10–18</td>
+        <td>Interactive FGP, goals tracking, recommendations, calendar view</td>
+      </tr>
+      <tr>
+        <td><strong>Sprint 9–10: Budgeting Tool</strong></td>
+        <td>Weeks 16–20</td>
+        <td>Budget builder, visual summaries, Fact-Find pre-population</td>
+      </tr>
+      <tr>
+        <td><strong>Integration & Cross-Cutting</strong></td>
+        <td>Weeks 8–22</td>
+        <td>Azure API integration, auth, audit trail, GDPR, branding</td>
+      </tr>
+      <tr>
+        <td><strong>QA & Compliance Validation</strong></td>
+        <td>Weeks 20–24</td>
+        <td>Full test coverage, FCA compliance check, security audit</td>
+      </tr>
+      <tr>
+        <td><strong>UAT & Launch</strong></td>
+        <td>Weeks 24–27</td>
+        <td>User acceptance, production deployment, documentation</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="color:var(--kg-muted);font-size:0.85rem;margin-top:8px;">Timeline assumes Azure infrastructure is ready and API documentation is provided by Genistar's internal IT team. Sprints overlap where feasible. Exact timeline to be confirmed during Discovery.</p>
+</section>
+
+<!-- ════════════════════════ INVESTMENT ════════════════════════ -->
+<div class="section-sep"></div>
+<section class="proposal-section fade-in">
+  <div class="section-number">09 — Investment</div>
+  <div class="section-divider"></div>
+  <h2>Time &amp; Materials Engagement</h2>
+
+  <p>Per Genistar's preference, the engagement follows a Time &amp; Materials model — providing full flexibility to adjust priorities, scope, and team composition as the project evolves through discovery and development.</p>
+
+  <h3>Estimated Team Composition &amp; Effort (Phase 1)</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Role</th>
+        <th>Count</th>
+        <th>Duration</th>
+        <th>Est. Hours</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Solution Architect / Tech Lead</td>
+        <td>1</td>
+        <td>~6 months</td>
+        <td>500–600</td>
+      </tr>
+      <tr>
+        <td>Project Manager</td>
+        <td>1</td>
+        <td>~7 months</td>
+        <td>400–500</td>
+      </tr>
+      <tr>
+        <td>UX/UI Designers</td>
+        <td>2</td>
+        <td>~4 months</td>
+        <td>600–750</td>
+      </tr>
+      <tr>
+        <td>Frontend Engineers</td>
+        <td>2</td>
+        <td>~5.5 months</td>
+        <td>1,400–1,700</td>
+      </tr>
+      <tr>
+        <td>Backend Engineers</td>
+        <td>2</td>
+        <td>~5.5 months</td>
+        <td>1,400–1,700</td>
+      </tr>
+      <tr>
+        <td>QA Engineer</td>
+        <td>1</td>
+        <td>~5 months</td>
+        <td>600–750</td>
+      </tr>
+      <tr class="total-row">
+        <td>Total Estimated Effort</td>
+        <td>9 specialists</td>
+        <td>~7 months</td>
+        <td>4,900–6,000 hrs</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="color:var(--kg-muted);font-size:0.85rem;">Effort estimates are preliminary and will be refined during the Discovery phase based on detailed requirements analysis, API documentation review, and technical sync with Genistar's IT team. Actual hours billed monthly based on time tracked.</p>
+
+  <h3>What's Included</h3>
+  <div style="margin-top:8px;">
+    <span class="tag">Discovery & Requirements</span>
+    <span class="tag">UX/UI Design</span>
+    <span class="tag">Frontend Development</span>
+    <span class="tag">Backend Development</span>
+    <span class="tag">Azure Integration</span>
+    <span class="tag">QA & Testing</span>
+    <span class="tag">FCA Compliance Architecture</span>
+    <span class="tag">GDPR Implementation</span>
+    <span class="tag">Responsive Design</span>
+    <span class="tag">Deployment Support</span>
+    <span class="tag">Documentation</span>
+  </div>
+
+  <h3>What's Excluded (Phase 2+)</h3>
+  <div style="margin-top:8px;">
+    <span class="tag teal">Representative Dashboard</span>
+    <span class="tag teal">Full Client Portal</span>
+    <span class="tag teal">Gamification</span>
+    <span class="tag teal">Learning Paths</span>
+    <span class="tag teal">Recruit Management</span>
+    <span class="tag teal">AI Transcription (full)</span>
+    <span class="tag teal">AI-Suggested FGPs</span>
+    <span class="tag teal">Native Mobile Apps</span>
+    <span class="tag teal">Data Migration</span>
+    <span class="tag teal">Zoom / WhatsApp Integration</span>
+  </div>
+</section>
+
+<!-- ════════════════════════ ASSUMPTIONS & DEPENDENCIES ════════════════════════ -->
+<div class="section-sep"></div>
+<section class="proposal-section fade-in">
+  <div class="section-number">10 — Assumptions &amp; Dependencies</div>
+  <div class="section-divider"></div>
+  <h2>What We Need from Genistar to Succeed</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Owner</th>
+        <th>Impact if Delayed</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Azure microservices infrastructure ready for integration</td>
+        <td>Genistar IT (Chris Duzich)</td>
+        <td>Blocks backend integration; may require standalone-first approach</td>
+      </tr>
+      <tr>
+        <td>API documentation for existing microservices</td>
+        <td>Genistar IT</td>
+        <td>Integration estimates increase 2–3× without documentation</td>
+      </tr>
+      <tr>
+        <td>New branding guidelines and assets (logos, colours, typography)</td>
+        <td>Genistar Marketing</td>
+        <td>Blocks final UI design decisions</td>
+      </tr>
+      <tr>
+        <td>Compliance/approval workflow business rules</td>
+        <td>Genistar Compliance</td>
+        <td>Cannot build approval logic without defined rules</td>
+      </tr>
+      <tr>
+        <td>Complete Fact-Find form (F0716-05/19) and access to current system</td>
+        <td>Aamir Jawfer</td>
+        <td>Affects requirement accuracy and design decisions</td>
+      </tr>
+      <tr>
+        <td>Product Owner (Aamir Jawfer) available for regular sprint reviews and decisions</td>
+        <td>Genistar</td>
+        <td>Decision delays cascade through sprint cycles</td>
+      </tr>
+      <tr>
+        <td>Technical sync with Chris Duzich on architecture boundaries</td>
+        <td>Aamir to coordinate</td>
+        <td>Risk of overlap/gaps between Kindgeek and internal IT scope</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ════════════════════════ NEXT STEPS ════════════════════════ -->
+<div class="section-sep"></div>
+<section class="proposal-section fade-in">
+  <div class="section-number">11 — Next Steps</div>
+  <div class="section-divider"></div>
+  <h2>Let's Move from Proposal to Kick-Off</h2>
+
+  <div class="timeline">
+    <div class="timeline-phase">
+      <div class="phase-marker active">1</div>
+      <div class="phase-content">
+        <h4>Proposal Review &amp; Feedback</h4>
+        <p>Review this proposal with Jeff, Aamir, and Chris. Share feedback or clarifying questions with Oleh Yakubiv.</p>
+      </div>
+    </div>
+    <div class="timeline-phase">
+      <div class="phase-marker">2</div>
+      <div class="phase-content">
+        <h4>Technical Alignment Call</h4>
+        <p>Joint session with Chris Duzich and Kindgeek's Solution Architect to align on Azure infrastructure, API boundaries, and integration approach.</p>
+      </div>
+    </div>
+    <div class="timeline-phase">
+      <div class="phase-marker">3</div>
+      <div class="phase-content">
+        <h4>Agreement &amp; Kick-Off</h4>
+        <p>Sign T&M engagement agreement. Onboard the dedicated team. Begin Discovery phase with full access to current system, Fact-Find form, and stakeholders.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-block">
+    <h3>Ready to Replace the 18-Year-Old System?</h3>
+    <p>Reach out to start the technical alignment call and move toward kick-off.</p>
+    <a href="mailto:oleh.yakubiv@kindgeek.com" class="cta-btn">Contact Oleh Yakubiv →</a>
+  </div>
+</section>
+
+<!-- ════════════════════════ FOOTER ════════════════════════ -->
+<footer>
+  <img src="data:image/webp;base64,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" alt="Kindgeek" class="logo">
+  <div class="legal">
+    This proposal is confidential and intended solely for Genistar Ltd. It may not be shared, reproduced, or distributed without written consent from Kindgeek.<br>
+    © 2026 Kindgeek. All rights reserved. &nbsp;|&nbsp; <a href="https://kindgeek.com" style="color:var(--kg-teal);text-decoration:none;">kindgeek.com</a>
+  </div>
+</footer>
+
+<!-- ── Scroll animations ── -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const faders = document.querySelectorAll('.fade-in');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  faders.forEach(f => obs.observe(f));
+});
+</script>
+</body>
+</html>
